@@ -12,7 +12,11 @@ const DB_LOCAL_STRING = `mongodb://127.0.0.1:27017/${dbName}`;
 process.env.DB_CONNECTION_STRING ? mongoose.connect(DB_CONNECTION_STRING, {dbName: dbName}) : mongoose.connect(DB_LOCAL_STRING);
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: process.env.FRONTEND_URL
+  })
+);
 app.use(express.json());
 
 SummonerRoutes(app);
