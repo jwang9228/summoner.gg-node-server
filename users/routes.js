@@ -27,6 +27,7 @@ function UserRoutes(app) {
     const user = await dao.findUserByUsername(req.body.username);
     if (user) {
       res.status(400).json({ message: "Username already taken" });
+      return;
     }
     const currentUser = await dao.createUser(req.body);
     req.session["currentUser"] = currentUser;
@@ -35,6 +36,10 @@ function UserRoutes(app) {
   const signin = async (req, res) => {
     const { username, password } = req.body;
     const currentUser = await dao.findUserByCredentials(username, password);
+    if (!currentUser) {
+      res.status(400).json({ message: "Invalid credentials" });
+      return;
+    }
     req.session["currentUser"] = currentUser;
     res.json(currentUser);
   };

@@ -2,6 +2,7 @@ import express from "express";
 import SummonerRoutes from "./riot-api/summoner/routes.js";
 import SummonersRoutes from "./summoners-db/routes.js";
 import UserRoutes from "./users/routes.js";
+import session from "express-session";
 import cors from "cors";
 import mongoose from "mongoose";
 import "dotenv/config";
@@ -20,6 +21,20 @@ app.use(cors({
     origin: process.env.FRONTEND_URL
   })
 );
+const sessionOptions = {
+  secret: "any string",
+  resave: false,
+  saveUninitialized: false,
+};
+if (process.env.NODE_ENV !== "development") {
+  sessionOptions.proxy = true;
+  sessionOptions.cookie = {
+    sameSite: "none",
+    secure: true,
+  };
+}
+
+app.use(session(sessionOptions));
 app.use(express.json());
 
 SummonerRoutes(app);
