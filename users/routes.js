@@ -34,8 +34,13 @@ function UserRoutes(app) {
   };
 
   const signup = async (req, res) => {
-    const user = await dao.findUserByUsername(req.body.username);
-    if (user) {
+    const emailUser = await dao.findUserByEmail(req.body.email);
+    if (emailUser) {
+      res.status(400).json({ message: "Email already taken" });
+      return;
+    }
+    const usernameUser = await dao.findUserByUsername(req.body.username);
+    if (usernameUser) {
       res.status(400).json({ message: "Username already taken" });
       return;
     }
