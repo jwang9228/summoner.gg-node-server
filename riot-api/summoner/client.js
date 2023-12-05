@@ -15,7 +15,6 @@ export const getSummonerByName = async (region, summonerName) => {
 	return response.data;
 };
 export const getSummonerMatches = async (routingValue, puuid, matchCount) => {
-	// https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/3o9ztW4aFdM8WLXQ_GzfzWVf9BEfbdEwdFAi2xY3FBfN8QJSgxsF1CQ8okJLGZprYlwkRUtOwc0Yxg/ids?start=0&count=20
 	const queryURL = `https://${routingValue}.${RIOT_API_MATCH_V5_URL}/by-puuid/${puuid}/ids?start=0&count=${matchCount}`;
 	const response = await axios.get(queryURL, {
 		headers: {
