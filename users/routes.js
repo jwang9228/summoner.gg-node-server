@@ -34,7 +34,8 @@ function UserRoutes(app) {
   };
 
   const signup = async (req, res) => {
-    const emailUser = await dao.findUserByEmail(req.body.email);
+    try {
+      const emailUser = await dao.findUserByEmail(req.body.email);
     if (emailUser) {
       res.status(400).json({ message: "Email already taken" });
       return;
@@ -47,6 +48,10 @@ function UserRoutes(app) {
     const currentUser = await dao.createUser(req.body);
     req.session["currentUser"] = currentUser;
     res.json(currentUser);
+    } catch (err) {
+      res.status(400).json({ message: "All fields required" });
+      return;
+    }
   };
   
   const signin = async (req, res) => {
