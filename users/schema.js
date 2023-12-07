@@ -12,9 +12,17 @@ const userSchema = new mongoose.Schema(
     },
     position: {
       type: String,
-      enum: ["Top", "Jungle", "Mid", "Bot", "Support", "Fill"],
-      default: "Fill",
-      required: true,
+      enum: ["", "Top", "Jungle", "Mid", "Bot", "Support", "Fill"],
+      validate: {
+        validator: function (value) {
+          if (this.role === "Player") {
+            return value && value.length > 0;
+          } else {
+            return value === "";
+          }
+        },
+        message: "Position required for players",
+      },
     },
   },
   { collection: "users" }
