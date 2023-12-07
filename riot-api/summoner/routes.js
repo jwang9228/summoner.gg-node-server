@@ -1,5 +1,7 @@
 import * as client from './client.js';
 
+const MAXIMUM_RECENT_SEARCHES = 5;
+
 function getRoutingValue(region) {
 	const regionMap = new Map([
 		['na1', 'americas'],
@@ -18,6 +20,35 @@ function getRoutingValue(region) {
 }
 
 function SummonerRoutes(app) {
+	const addRecentSearch = async (req, res) => {
+		if (!req.session["recentlySearched"]) {
+			req.session["recentlySearched"] = [];
+		}
+		const searchData = req.body;
+		const recentlySearched = req.session["recentlySearched"];
+		const searchDataIndex = recentlySearched.findIndex(search => 
+			(searchData.name === search.name && searchData.region === search.region));
+		let newRecentSearch = null;
+		if (searchDataIndex != -1) {
+			const removedSearch = recentlySearched.splice(searchDataIndex, 1)[0];
+			newRecentSearch = removedSearch;
+		} else if (recentlySearched.length >= MAXIMUM_RECENT_SEARCHES) {
+			recentlySearched.pop();
+			newRecentSearch = searchData;
+		} else {
+			newRecentSearch = searchData;
+		}
+		recentlySearched.unshift(newRecentSearch);
+		res.send(newRecentSearch);
+	};
+
+	const getRecentSearches = async (req, res) => {
+		if (!req.session["recentlySearched"]) {
+			req.session["recentlySearched"] = [];
+		}
+		res.send(req.session["recentlySearched"]);
+	};
+
 	app.get('/api/summoner/:region/:name', async (req, res) => {
 		try {
 			const { region, name } = req.params;
@@ -37,5 +68,7 @@ function SummonerRoutes(app) {
 			res.status(500).json({ error: 'Internal Server Error' });
 		}
 	});
+	app.post('/api/summoner/recentSearches', addRecentSearch); 
+	app.get('/api/summoner/recentSearches', getRecentSearches);
 }
 export default SummonerRoutes;
