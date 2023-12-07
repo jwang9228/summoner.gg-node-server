@@ -48,18 +48,13 @@ const userSchema = new mongoose.Schema(
           trim: true,
           default: "",
         },
-        TikTok: {
-          type: String,
-          trim: true,
-          default: "",
-        },
-        Facebook: {
-          type: String,
-          trim: true,
-          default: "",
-        },
       },
-      default: {},
+      default: {
+        Twitter: "",
+        Twitch: "",
+        Youtube: "",
+        Instagram: "",
+      },
     },
     champion: {
       type: String,

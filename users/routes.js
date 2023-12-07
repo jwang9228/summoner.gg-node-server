@@ -26,34 +26,39 @@ function UserRoutes(app) {
   };
 
   const updateUser = async (req, res) => {
-    const { userId } = req.params;
-    const status = await dao.updateUser(userId, req.body);
-    const currentUser = await dao.findUserById(userId);
-    req.session["currentUser"] = currentUser;
-    res.json(status);
+    try {
+      const { userId } = req.params;
+      const status = await dao.updateUser(userId, req.body);
+      const currentUser = await dao.findUserById(userId);
+      req.session["currentUser"] = currentUser;
+      res.json(status);
+    } catch (err) {
+      res.status(400).json({ message: "Username and email must be unique" });
+      return;
+    }
   };
 
   const signup = async (req, res) => {
     try {
       const emailUser = await dao.findUserByEmail(req.body.email);
-    if (emailUser) {
-      res.status(400).json({ message: "Email already taken" });
-      return;
-    }
-    const usernameUser = await dao.findUserByUsername(req.body.username);
-    if (usernameUser) {
-      res.status(400).json({ message: "Username already taken" });
-      return;
-    }
-    const currentUser = await dao.createUser(req.body);
-    req.session["currentUser"] = currentUser;
-    res.json(currentUser);
+      if (emailUser) {
+        res.status(400).json({ message: "Email already taken" });
+        return;
+      }
+      const usernameUser = await dao.findUserByUsername(req.body.username);
+      if (usernameUser) {
+        res.status(400).json({ message: "Username already taken" });
+        return;
+      }
+      const currentUser = await dao.createUser(req.body);
+      req.session["currentUser"] = currentUser;
+      res.json(currentUser);
     } catch (err) {
       res.status(400).json({ message: "All fields required" });
       return;
     }
   };
-  
+
   const signin = async (req, res) => {
     const { username, password } = req.body;
     const currentUser = await dao.findUserByCredentials(username, password);
