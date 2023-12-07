@@ -68,6 +68,15 @@ function SummonerRoutes(app) {
 			res.status(500).json({ error: 'Internal Server Error' });
 		}
 	});
+	app.get('/api/summoner/winrates/:region/:summonerId', async (req, res) => {
+		try {
+			const { region, summonerId } = req.params;
+			const winrateData = await client.getSummonerWinrates(region, summonerId);
+			res.status(200).send(winrateData);
+		} catch (error) {
+			res.status(500).json({ error: 'Internal Server Error' });
+		}
+	});
 	app.post('/api/summoner/recentSearches', addRecentSearch); 
 	app.get('/api/summoner/recentSearches', getRecentSearches);
 }

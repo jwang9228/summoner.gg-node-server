@@ -3,6 +3,7 @@ const summonerSchema = new mongoose.Schema(
 	{
 		summonerName: String,
         summonerLevel: Number,
+		summonerId: String,
         profileIconId: Number,
         puuid: String,
 		server: {
@@ -24,6 +25,20 @@ const summonerSchema = new mongoose.Schema(
 			default: 'na1',
 		},
 		matchIDs: [String],
+		soloQueueRank: {
+			win: Number,
+			loss: Number,
+			tier: String,
+			rank: String,
+			leaguePoints: Number
+		},
+		flexQueueRank: {
+			win: Number,
+			loss: Number,
+			tier: String,
+			rank: String,
+			leaguePoints: Number
+		},
 	},
 	{ collection: 'summoners' }
 );
