@@ -1,0 +1,46 @@
+[
+  {
+    "name": "NA",
+    "server": "na1"
+  },
+  {
+    "name": "EUW",
+    "server": "euw1"
+  },
+  {
+    "name": "EUNE",
+    "server": "eun1"
+  },
+  {
+    "name": "KR",
+    "server": "kr"
+  },
+  {
+    "name": "JP",
+    "server": "jp1"
+  },
+  {
+    "name": "BR",
+    "server": "br1"
+  },
+  {
+    "name": "OCE",
+    "server": "oc1"
+  },
+  {
+    "name": "LAN",
+    "server": "la1"
+  },
+  {
+    "name": "LAS",
+    "server": "la2"
+  },
+  {
+    "name": "RU",
+    "server": "ru1"
+  },
+  {
+    "name": "TR",
+    "server": "tr1"
+  }
+]
