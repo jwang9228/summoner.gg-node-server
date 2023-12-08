@@ -38,6 +38,11 @@ const userSchema = new mongoose.Schema(
           trim: true,
           default: "",
         },
+        AfreecaTV: {
+          type: String,
+          trim: true,
+          default: "",
+        },
         Youtube: {
           type: String,
           trim: true,
@@ -52,6 +57,7 @@ const userSchema = new mongoose.Schema(
       default: {
         Twitter: "",
         Twitch: "",
+        AfreecaTV: "",
         Youtube: "",
         Instagram: "",
       },
