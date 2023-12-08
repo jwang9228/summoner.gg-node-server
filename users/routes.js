@@ -16,8 +16,13 @@ function UserRoutes(app) {
   };
 
   const findUserById = async (req, res) => {
-    const user = await dao.findUserById(req.params.userId);
-    res.json(user);
+    try {
+      const user = await dao.findUserById(req.params.userId);
+      res.json(user);
+    } catch (err) {
+      res.status(400).json({ message: "User not found" });
+      return;
+    }
   };
 
   const findUserByEmail = async (req, res) => {
