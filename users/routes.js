@@ -39,8 +39,8 @@ function UserRoutes(app) {
     try {
       const { userId } = req.params;
       const status = await dao.updateUser(userId, req.body);
-      const currentUser = await dao.findUserById(userId);
-      req.session["currentUser"] = currentUser;
+      // const currentUser = await dao.findUserById(userId);
+      // req.session["currentUser"] = currentUser;
       res.json(status);
     } catch (err) {
       res.status(400).json({ message: "Username and email must be unique" });
