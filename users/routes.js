@@ -2,10 +2,20 @@ import * as dao from "./dao.js";
 function UserRoutes(app) {
   const createUser = async (req, res) => {
     try {
-      const user = await dao.createUser(req.body);
-      res.json(user);
+      const emailUser = await dao.findUserByEmail(req.body.email);
+      if (emailUser) {
+        res.status(400).json({ message: "Email already taken" });
+        return;
+      }
+      const usernameUser = await dao.findUserByUsername(req.body.username);
+      if (usernameUser) {
+        res.status(400).json({ message: "Username already taken" });
+        return;
+      }
+      const newUser = await dao.createUser(req.body);
+      res.json(newUser);
     } catch (err) {
-      res.status(400).json({ message: "Username and email must be unique" });
+      res.status(400).json({ message: "All fields required" });
       return;
     }
   };
