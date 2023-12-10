@@ -66,13 +66,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: championsList,
     },
-    summonerName: {
-      type: String
+    mySummoner: {
+      summonerName: String,
+      region: String,
     },
-    region: {
-      type: String,
-      enum: ["BR1", "EUN1", "EUW1", "JP1", "KR", "LA1", "LA2", "NA1", "OC1", "RU", "TR1"],
-    }
   },
   { collection: "users" }
 );

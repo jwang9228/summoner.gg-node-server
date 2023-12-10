@@ -4,7 +4,6 @@ export const findAllUsers = () => model.find();
 export const findUserById = (userId) => model.findById(userId);
 export const findUserByUsername = (username) =>
   model.findOne({ username: username });
-export const findUserByEmail = (email) => model.findOne({ email: email });
 export const findUserByCredentials = (usr, pass) =>
   model.findOne({ username: usr, password: pass });
 export const updateUser = (userId, user) =>

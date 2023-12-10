@@ -40,17 +40,11 @@ function UserRoutes(app) {
     }
   };
 
-  const findUserByEmail = async (req, res) => {
-    const user = await dao.findUserByEmail(req.params.userId);
-    res.json(user);
-  };
-
   const updateUser = async (req, res) => {
     try {
       const { userId } = req.params;
       const status = await dao.updateUser(userId, req.body);
-      // const currentUser = await dao.findUserById(userId);
-      // req.session["currentUser"] = currentUser;
+      req.session["currentUser"] = req.body;
       res.json(status);
     } catch (err) {
       res.status(400).json({ message: "Username and email must be unique" });
