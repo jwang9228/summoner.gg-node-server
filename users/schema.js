@@ -66,24 +66,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: championsList,
     },
-    summonerName: {
-      type: String,
-    },
-    region: {
-      type: String,
-      enum: [
-        "BR1",
-        "EUN1",
-        "EUW1",
-        "JP1",
-        "KR",
-        "LA1",
-        "LA2",
-        "NA1",
-        "OC1",
-        "RU",
-        "TR1",
-      ],
+    mySummoner: {
+      summonerName: String,
+      region: String,
     },
     favoriteUsers: [
       {

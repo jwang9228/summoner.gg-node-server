@@ -45,11 +45,6 @@ function UserRoutes(app) {
     }
   };
 
-  const findUserByEmail = async (req, res) => {
-    const user = await dao.findUserByEmail(req.params.userId);
-    res.json(user);
-  };
-
   const updateUser = async (req, res) => {
     try {
       const { userId } = req.params;
