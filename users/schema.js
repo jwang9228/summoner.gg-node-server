@@ -80,4 +80,9 @@ const userSchema = new mongoose.Schema(
   { collection: "users" }
 );
 
+userSchema.pre('save', function (next) {
+  this.favoriteUsers.sort((a, b) => a.username.localeCompare(b.username));
+  next();
+});
+
 export default userSchema;
