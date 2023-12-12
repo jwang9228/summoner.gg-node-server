@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import championsList from "./champions.json" assert { type: 'json' };
+import championsList from "./champions.json" assert { type: "json" };
 
 const userSchema = new mongoose.Schema(
   {
@@ -67,13 +67,32 @@ const userSchema = new mongoose.Schema(
       enum: championsList,
     },
     summonerName: {
-      type: String
+      type: String,
     },
     region: {
       type: String,
-      enum: ["BR1", "EUN1", "EUW1", "JP1", "KR", "LA1", "LA2", "NA1", "OC1", "RU", "TR1"],
-    }
+      enum: [
+        "BR1",
+        "EUN1",
+        "EUW1",
+        "JP1",
+        "KR",
+        "LA1",
+        "LA2",
+        "NA1",
+        "OC1",
+        "RU",
+        "TR1",
+      ],
+    },
+    favoriteUsers: [
+      {
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        username: String,
+      },
+    ],
   },
   { collection: "users" }
 );
+
 export default userSchema;

@@ -21,7 +21,12 @@ function UserRoutes(app) {
   };
 
   const deleteUser = async (req, res) => {
-    const status = await dao.deleteUser(req.params.userId);
+    const userId = req.params.userId;
+    const status = await dao.deleteUser(userId);
+    const currentUser = await dao.findUserById(req.session["currentUser"]._id);
+    if (currentUser) {
+      req.session["currentUser"] = currentUser;
+    }
     res.json(status);
   };
 
@@ -49,7 +54,12 @@ function UserRoutes(app) {
     try {
       const { userId } = req.params;
       const status = await dao.updateUser(userId, req.body);
-      // const currentUser = await dao.findUserById(userId);
+      const updatedUser = await dao.findUserById(userId);
+      const currentUser = req.session["currentUser"];
+      // check if the updated user is the current user
+      if (currentUser._id.toString() === updatedUser._id.toString()) {
+        req.session["currentUser"] = updatedUser;
+      }
       // req.session["currentUser"] = currentUser;
       res.json(status);
     } catch (err) {
@@ -100,14 +110,46 @@ function UserRoutes(app) {
     res.json(req.session["currentUser"]);
   };
 
+  const addToFavoriteUsers = async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const favoriteUserId = req.params.favoriteUserId;
+      const favoriteUser = await dao.findUserById(favoriteUserId);
+      const favoriteUsername = favoriteUser.username;
+      const currentUser = await dao.addToFavoriteUsers(userId, favoriteUserId, favoriteUsername);
+      req.session["currentUser"] = currentUser;
+      res.json(currentUser.favoriteUsers);
+    } catch (err) {
+      // console.error(err);
+      res.status(500).json({ success: false, error: "Internal Server Error" });
+    }
+  };
+
+  const removeFromFavoriteUsers = async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const favoriteUserId = req.params.favoriteUserId;
+      const favoriteUser = await dao.findUserById(favoriteUserId);
+      const favoriteUsername = favoriteUser.username;
+      const currentUser = await dao.removeFromFavoriteUsers(userId, favoriteUserId, favoriteUsername);
+      req.session["currentUser"] = currentUser;
+      res.json(currentUser.favoriteUsers);
+    } catch (err) {
+      // console.error(err);
+      res.status(500).json({ success: false, error: "Internal Server Error" });
+    }
+  };
+
   app.post("/api/users", createUser);
   app.get("/api/users", findAllUsers);
   app.get("/api/users/:userId", findUserById);
   app.put("/api/users/:userId", updateUser);
-  app.delete("/api/users/:userId", deleteUser);
   app.post("/api/users/signup", signup);
   app.post("/api/users/signin", signin);
   app.post("/api/users/signout", signout);
   app.post("/api/users/account", account);
+  app.delete("/api/users/:userId", deleteUser);
+  app.post("/api/users/:userId/add-to-favorites/:favoriteUserId", addToFavoriteUsers);
+  app.post("/api/users/:userId/remove-from-favorites/:favoriteUserId", removeFromFavoriteUsers);
 }
 export default UserRoutes;
