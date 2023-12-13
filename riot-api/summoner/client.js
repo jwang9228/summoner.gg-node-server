@@ -15,6 +15,7 @@ export const getSummonerByName = async (region, summonerName) => {
 	});
 	return response.data;
 };
+
 export const getSummonerMatches = async (routingValue, puuid, matchCount) => {
 	const queryURL = `https://${routingValue}.${RIOT_API_MATCH_V5_URL}/by-puuid/${puuid}/ids?start=0&count=${matchCount}`;
 	const response = await axios.get(queryURL, {
@@ -24,6 +25,17 @@ export const getSummonerMatches = async (routingValue, puuid, matchCount) => {
 	});
 	return response.data;
 };
+
+export const getMatchByID = async (routingValue, matchID) => {
+	const queryURL = `https://${routingValue}.${RIOT_API_MATCH_V5_URL}/${matchID}`;
+	const response = await axios.get(queryURL, {
+		headers: {
+			'X-Riot-Token': RIOT_API_KEY,
+		},
+	});
+	return response.data;
+}
+
 export const getSummonerWinrates = async (region, summonerId) => {
 	const queryURL = `https://${region}.${RIOT_API_LEAGUE_V4_URL}/${summonerId}`;
 	const response = await axios.get(queryURL, {
