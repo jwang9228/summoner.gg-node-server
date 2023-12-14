@@ -72,7 +72,7 @@ const userSchema = new mongoose.Schema(
     },
     favoriteUsers: [
       {
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         username: String,
       },
     ],
@@ -80,9 +80,9 @@ const userSchema = new mongoose.Schema(
   { collection: "users" }
 );
 
-userSchema.pre('save', function (next) {
-  this.favoriteUsers.sort((a, b) => a.username.localeCompare(b.username));
-  next();
-});
+// userSchema.pre("save", function (next) {
+//   this.favoriteUsers.sort((a, b) => a.username.localeCompare(b.username));
+//   next();
+// });
 
 export default userSchema;
