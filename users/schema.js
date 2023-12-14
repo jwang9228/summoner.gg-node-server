@@ -76,6 +76,16 @@ const userSchema = new mongoose.Schema(
         username: String,
       },
     ],
+    favoriteSummoners: [
+      {
+        summonerId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Summoner",
+        },
+        summonerName: String,
+        region: String,
+      },
+    ],
   },
   { collection: "users" }
 );
