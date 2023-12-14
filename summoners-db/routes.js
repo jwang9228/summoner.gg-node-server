@@ -5,6 +5,10 @@ function SummonersRoutes(app) {
 		const summoner = await dao.createSummoner(req.body);
 		res.json(summoner);
 	};
+	const updateSummoner = async (req, res) => {
+		const updatedSummoner = await dao.updateSummoner(req.body);
+		res.json(updatedSummoner);
+	}
 	const findSummonerByServer = async (req, res) => {
 		const summoner = await dao.findSummonerByServer(
 			req.params.server,
@@ -14,6 +18,7 @@ function SummonersRoutes(app) {
 	};
 
 	app.post('/api/summoners', createSummoner);
+	app.put('/api/summoners', updateSummoner);
 	app.get('/api/summoners/:server/:summonerName', findSummonerByServer);
 }
 export default SummonersRoutes;
